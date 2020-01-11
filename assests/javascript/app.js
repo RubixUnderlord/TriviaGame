@@ -9,18 +9,17 @@ $(document).ready(function () {
         correctAnswer: "4",
     }];
     var questionsAnswered = 0;
-    var correct = 0;
-    var incorrect = 0;
+    var correctA = 0;
+    var incorrectA = 0;
     var unanswered = 0;
     var timer = 30;
+    var questionTimer;
 
 
     $("#start").on("click", function () {
         start()
     });
-    //$("#check").on("click", function () {
-     //   checkifCorrect()
-    //});
+
 
 
     function game() {
@@ -33,19 +32,46 @@ $(document).ready(function () {
         for (i = 0; i < questions[questionsAnswered].answers.length; i++) {
             var solutions = $("<button>");
             solutions.text(questions[questionsAnswered].answers[i]).attr("id", "check").attr("data-value", questions[questionsAnswered].answers[i]);
-            solutions.click(function(){
-                if ($(this).attr("data-value") === questions[questionsAnswered].correctAnswer){
-                    //correct()
+            solutions.click(function () {
+                if ($(this).attr("data-value") === questions[questionsAnswered].correctAnswer) {
+                    clearTimeout(questionTimer);
+                    correctA++
+                    correct()
                     console.log("good Job");
-                }else{
-                    console.log($(this).attr("data-value"));
-                    console.log(questions[questionsAnswered].correctAnswer);
+                    console.log(correctA);
+                } else {
+                    clearTimeout(questionTimer);
+                    incorrectA++
+                    incorrect()
+                    console.log("wrong");
+                    console.log(incorrectA);
+
                 }
             });
             $(".game").append(solutions);
         }
     }
-
+    function correct() {
+        $(".game").empty();
+        var youAreRight = $("<h2>");
+        youAreRight.text("CORRECT");
+        $(".game").append(youAreRight);
+        newRound()
+    }
+    function incorrect(){
+        $(".game").empty();
+        var youAreWrong = $("<h2>");
+        youAreWrong.text("INCORRECT");
+        $(".game").append(youAreWrong);
+        newRound()
+    }
+    function ranOutOfTime(){
+        $(".game").empty();
+        var timeOut = $("<h2>");
+        timeOut.text("OUT OF TIME");
+        $(".game").append(timeOut);
+        newRound()
+    }
     function start() {
         game()
     }
@@ -54,21 +80,44 @@ $(document).ready(function () {
         var time = $("<p>");
         time.addClass("timer").text("Time Remaining: " + timer);
         $(".game").append(time);
-        var questionTimer = setInterval(function () {
+        questionTimer = setInterval(function () {
             timer--;
             $(".timer").text("Time Remaining: " + timer);
-            if (timer <= 0) clearInterval(questionTimer);
+            if (timer <= 0) ranOutOfTime();if (timer <= 0) clearInterval(questionTimer);
         }, 1000);
+
+
+    }
+    function newRound() {
+        questionsAnswered++
         setTimeout(function () {
+            checkForEndGame()
+        }, 6000);
+    }
+    function checkForEndGame() {
+        if (questions[questionsAnswered] === undefined) {
+            gameOver()
+            console.log("game over");
+        } else {
             game()
-        }, 36000);
+        }
 
     }
-    function checkifCorrect() {
-
-    }
-    while (timer === 0) {
-        game()
+    function gameOver() {
+        $(".game").empty();
+        var stats = $("<p>");
+        stats.text("Correct Answers: " + correctA);
+        $(".game").append(stats);
+        var reset = $("<button>");
+        reset.text("reset");
+        reset.click(function(){
+            questionsAnswered = 0;
+            correctA = 0;
+            incorrectA = 0;
+            unanswered = 0;
+            game()
+        });
+        $(".game").append(reset);
     }
 });
 
