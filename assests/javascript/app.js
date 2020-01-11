@@ -4,7 +4,9 @@ $(document).ready(function () {
         answers: ["1", "2", "3", "4"],
         correctAnswer: "2",
     }, {
-        question: "what is 2 + 2"
+        question: "what is 2 + 2",
+        answers: ["4", "5", "6", "7"],
+        correctAnswer: "4",
     }];
     var questionsAnswered = 0;
     var correct = 0;
@@ -16,9 +18,9 @@ $(document).ready(function () {
     $("#start").on("click", function () {
         start()
     });
-    $("#check").on("click", function () {
-        checkifCorrect()
-    });
+    //$("#check").on("click", function () {
+     //   checkifCorrect()
+    //});
 
 
     function game() {
@@ -28,12 +30,20 @@ $(document).ready(function () {
         var problem = $("<h2>");
         problem.text(questions[questionsAnswered].question);
         $(".game").append(problem);
-        for (i = 0; i < questions[0].answers.length; i++) {
+        for (i = 0; i < questions[questionsAnswered].answers.length; i++) {
             var solutions = $("<button>");
-            solutions.text(questions[0].answers[i]).attr("id", "check").attr("data-value", questions[0].answers[i]);
+            solutions.text(questions[questionsAnswered].answers[i]).attr("id", "check").attr("data-value", questions[questionsAnswered].answers[i]);
+            solutions.click(function(){
+                if ($(this).attr("data-value") === questions[questionsAnswered].correctAnswer){
+                    //correct()
+                    console.log("good Job");
+                }else{
+                    console.log($(this).attr("data-value"));
+                    console.log(questions[questionsAnswered].correctAnswer);
+                }
+            });
             $(".game").append(solutions);
         }
-        questionsAnswered++
     }
 
     function start() {
@@ -54,22 +64,12 @@ $(document).ready(function () {
         }, 36000);
 
     }
+    function checkifCorrect() {
+
+    }
     while (timer === 0) {
         game()
     }
-    //function game() {
-    //
-
-
-
-    // }
-    // function checkifCorrect() {
-    //   if ($(this) === questions[0].correctAnswer) {
-    //        console.log("you got it");
-    //    } else {
-    //        console.log("damn");
-    //    }
-    // }
 });
 
 
