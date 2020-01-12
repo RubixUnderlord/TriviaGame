@@ -1,0 +1,33 @@
+body{
+    background-image: url("../images/star_background.jpg");
+}
+.container{
+    margin:auto;
+    margin-top:90px;
+    text-align: center;
+    background-color: antiquewhite;
+    height:700px;
+}
+.title{
+    font-size: 36px;
+    font-weight: bold;
+    padding-top: 20px;
+    width:auto;
+    border-bottom: solid black 3px;
+}
+#timeCounter{
+    font-size:26px;
+    margin-top:10px;
+    width:auto;
+    border-bottom: solid black 1px;
+}
+.game{
+    font-size:20px;
+}
+button{
+    margin-top:5px;
+    background:none;
+    border:none;
+    margin:auto;
+    clear: both;
+}

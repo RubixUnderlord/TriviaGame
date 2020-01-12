@@ -1,13 +1,37 @@
 $(document).ready(function () {
     questions = [{
-        question: "What is 1 + 1?",
-        answers: ["1", "2", "3", "4"],
-        correctAnswer: "2",
+        question: "What is the capital of Taiwan?",
+        answers: ["Taipei", "Beijing", "Shanhai", "Hong Kong"],
+        correctAnswer: "Taipei",
     }, {
-        question: "what is 2 + 2",
-        answers: ["4", "5", "6", "7"],
-        correctAnswer: "4",
-    }];
+        question: "Who wrote Moby Dick?",
+        answers: ["Jane Erye", "Charles Dickens", "Herman Melville", "Mark Twain"],
+        correctAnswer: "Herman Melville",
+    },{
+        question: "The Shining was written by which author?",
+        answers:["J.K. Rowling","Stephen King","R.L. Stein","J.R.R Tolkein"],
+        correctAnswer:"Stephen King",
+    },{
+        question: "What letter follows iota in the Greek alphabet?",
+        answers:["Theta","Omega","Lambda","Kappa"],
+        correctAnswer:"Kappa",
+    },{
+        question: "What is the term for a nine sided object?",
+        answers:["Decagon","Nonagon","Septagon","Octagon"],
+        correctAnswer:"Nonagon",
+    },{
+        question: "What is the smallest island country?",
+        answers:["Palau","Tuvalu","Nauru","Malta"],
+        correctAnswer:"Nauru",
+    },{
+        question: "Halloween is in which month?",
+        answers:["September","October","January","November"],
+        correctAnswer:"October",
+    },{
+        question: "Michael Jordan played for which team?",
+        answers:["Warriors","Spurs","Jazz","Bulls"],
+        correctAnswer:"Bulls",
+    },];
     var questionsAnswered = 0;
     var correctA = 0;
     var incorrectA = 0;
@@ -31,7 +55,7 @@ $(document).ready(function () {
         $(".game").append(problem);
         for (i = 0; i < questions[questionsAnswered].answers.length; i++) {
             var solutions = $("<button>");
-            solutions.text(questions[questionsAnswered].answers[i]).attr("id", "check").attr("data-value", questions[questionsAnswered].answers[i]);
+            solutions.html(questions[questionsAnswered].answers[i]).attr("id", "check").attr("data-value", questions[questionsAnswered].answers[i]);
             solutions.click(function () {
                 if ($(this).attr("data-value") === questions[questionsAnswered].correctAnswer) {
                     clearTimeout(questionTimer);
@@ -49,6 +73,9 @@ $(document).ready(function () {
                 }
             });
             $(".game").append(solutions);
+            var lineBreak = ("<br>");
+            $(".game").append(lineBreak);
+
         }
     }
     function correct() {
@@ -56,6 +83,9 @@ $(document).ready(function () {
         var youAreRight = $("<h2>");
         youAreRight.text("CORRECT");
         $(".game").append(youAreRight);
+        var dog = $("<img>");
+        dog.attr("src","https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg");
+        $(".game").append(dog);
         newRound()
     }
     function incorrect(){
@@ -63,6 +93,9 @@ $(document).ready(function () {
         var youAreWrong = $("<h2>");
         youAreWrong.text("INCORRECT");
         $(".game").append(youAreWrong);
+        var cat = $("<img>");
+        cat.attr("src","https://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg");
+        $(".game").append(cat);
         newRound()
     }
     function ranOutOfTime(){
@@ -70,6 +103,10 @@ $(document).ready(function () {
         var timeOut = $("<h2>");
         timeOut.text("OUT OF TIME");
         $(".game").append(timeOut);
+        var cat = $("<img>");
+        cat.attr("src","https://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg");
+        $(".game").append(cat);
+        unanswered++
         newRound()
     }
     function start() {
@@ -79,7 +116,9 @@ $(document).ready(function () {
         timer = 30
         var time = $("<p>");
         time.addClass("timer").text("Time Remaining: " + timer);
-        $(".game").append(time);
+        time.attr("id","timeCounter");
+        $(".space").empty();
+        $(".space").append(time);
         questionTimer = setInterval(function () {
             timer--;
             $(".timer").text("Time Remaining: " + timer);
@@ -106,7 +145,7 @@ $(document).ready(function () {
     function gameOver() {
         $(".game").empty();
         var stats = $("<p>");
-        stats.text("Correct Answers: " + correctA);
+        stats.html("Correct Answers: " + correctA + "<br>" + "Incorrect Answers: " + incorrectA + "<br>" + "Unanswered Questions: " + unanswered);
         $(".game").append(stats);
         var reset = $("<button>");
         reset.text("reset");
